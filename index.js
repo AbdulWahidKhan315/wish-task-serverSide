@@ -46,6 +46,20 @@ async function run() {
         res.send(result);
     })
 
+    app.put('/allTasksData/:id',async(req,res)=>{
+        const id = req.params.id;
+        const newTask = req.body;
+        const filter = {_id: new ObjectId(id)};
+        const options = {upsert: true};
+        const updatedTask = {
+            $set: {
+                ...newTask
+            }
+        }
+        const result = await taskCollection.updateOne(filter,updatedTask,options);
+        res.send(result);
+    })
+
     app.delete('/allTasksData/:id', async(req,res)=>{
         const id = req.params.id;
         const query = {_id: new ObjectId(id)}
